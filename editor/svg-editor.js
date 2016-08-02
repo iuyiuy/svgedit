@@ -146,7 +146,7 @@ TODOS
 				preventURLContentLoading: false,
 				// IGNORED NAMESPACES
 				ignoredNS: {
-					//EXAMPLE: 'https://example.com/svg-example-extension'
+					//example: 'https://example.com/svg-example-extension'
 				},
 				// EXTENSION CONFIGURATION (see also preventAllURLConfig)
 				lockExtensions: false, // Disallowed in URL setting
@@ -501,6 +501,9 @@ TODOS
 							}
 						}
 					);
+
+					// Disallow ignoring namespaces via URL - cf. issue 94
+					if('ignoredNS' in urldata) delete urldata.ignoredNS;
 
 					editor.setConfig(urldata, {overwrite: false}); // Note: source and url (as with storagePrompt later) are not set on config but are used below
 					
@@ -4157,7 +4160,7 @@ TODOS
 			testEl.removeAttribute('style');
 			var svgdocbox = paintBox.fill.rect.ownerDocument;
 			// Use this to test support for blur element. Seems to work to test support in Webkit
-			var blurTest = svgdocbox.createElementNS(svgedit.NS.SVG, 'feGaussianBlur');
+			var blurTest = svgdocbox.createElementNS(svgedit.NS.svg, 'feGaussianBlur');
 			if (blurTest.stdDeviationX === undefined) {
 				$('#tool_blur').hide();
 			}

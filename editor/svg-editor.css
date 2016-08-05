@@ -437,7 +437,7 @@ div.palette_item:first-child {
 	padding-left: 7px;
 	margin: -5px;
 	overflow: auto;
-	cursor: default;
+	cursor: pointer;
 }
 
 #main_menu li:hover {

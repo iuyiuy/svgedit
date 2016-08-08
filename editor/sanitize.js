@@ -101,9 +101,9 @@ $.each(svgWhiteList_, function(elt, atts){
   $.each(atts, function(i, att){
     if (att.indexOf(':') >= 0) {
       var v = att.split(':');
-      attNS[v[1]] = NS[v[0]];
+      attNS[v[1]] = NS[(v[0]).toUpperCase()];
     } else {
-      attNS[att] = att == 'xmlns' ? NS.xmlns : null;
+      attNS[att] = att == 'xmlns' ? NS.XMLNS : null;
     }
   });
   svgWhiteListNS_[elt] = attNS;
@@ -141,6 +141,7 @@ svgedit.sanitize.sanitizeSvg = function(node) {
 
   var allowedAttrs = svgWhiteList_[node.nodeName];
   var allowedAttrsNS = svgWhiteListNS_[node.nodeName];
+  if(!('ignoredNSUsedAlias' in svgedit)) svgedit.ignoredNSUsedAlias = {};
   var i;
   // if this element is supported, sanitize it
   if (typeof allowedAttrs !== 'undefined') {
@@ -154,15 +155,23 @@ svgedit.sanitize.sanitizeSvg = function(node) {
       var attrLocalName = attr.localName;
       var attrNsURI = attr.namespaceURI;
 
-      // Ignore attributes from custom namespaces and their definitions
+      // Namespaces
       var splitNS = attrName.match(/([^:]+):(.*$)/);
-      if(splitNS && splitNS[1] in svgedit.ignoredNS) continue;
-      if(splitNS && splitNS[1] == 'xmlns' && splitNS[2] in svgedit.ignoredNS) continue;
+      if(splitNS) {
+          // Detect initialization of namespaces and only allow the ones on the ignoredNS list
+          if(splitNS[1] == 'xmlns' && attr.value in svgedit.ignoredNS) {
+              svgedit.ignoredNSUsedAlias[splitNS[2]] = attr.value;
+              continue;
+          }
+
+          // Ignore attributes from the allowed namespaces
+          if(splitNS[1] in svgedit.ignoredNSUsedAlias) continue;
+      }
 
       // Check that an attribute with the correct localName in the correct namespace is on 
       // our whitelist or is a namespace declaration for one of our allowed namespaces
-      if (!(allowedAttrsNS.hasOwnProperty(attrLocalName) && attrNsURI == allowedAttrsNS[attrLocalName] && attrNsURI != NS.xmlns) &&
-        !(attrNsURI == NS.xmlns && REVERSE_NS[attr.value]) )
+      if (!(allowedAttrsNS.hasOwnProperty(attrLocalName) && attrNsURI == allowedAttrsNS[attrLocalName] && attrNsURI != NS.XMLNS) &&
+        !(attrNsURI == NS.XMLNS && REVERSE_NS[attr.value]) )
       {
         node.removeAttributeNS(attrNsURI, attrLocalName);
       }
@@ -206,7 +215,7 @@ svgedit.sanitize.sanitizeSvg = function(node) {
       if (href[0] != '#') {
         // remove the attribute (but keep the element)
         svgedit.utilities.setHref(node, '');
-        node.removeAttributeNS(NS.xlink, 'href');
+        node.removeAttributeNS(NS.XLINK, 'href');
       }
     }
 

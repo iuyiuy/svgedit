@@ -189,9 +189,10 @@ var selectedElements = [];
 // * element - tag name of the SVG element to create
 // * attr - Object with attributes key-values to assign to the new element
 // * curStyles - Boolean indicating that current style attributes should be applied first
+// * children - Optional array with data objects to be added recursively as children
 //
 // Returns: The new element
-var addSvgElementFromJson = this.addSvgElementFromJson = function addSvgElementFromJson(data) {
+var addSvgElementFromJson = this.addSvgElementFromJson = function(data) {
 	if(typeof(data) == 'string') return svgdoc.createTextNode(data);
 
 	var shape = svgedit.utilities.getElem(data.attr.id);
@@ -225,9 +226,11 @@ var addSvgElementFromJson = this.addSvgElementFromJson = function addSvgElementF
 	svgedit.utilities.cleanupElement(shape);
 
 	// Children
-	if(data.children) data.children.forEach(function(child){
-		shape.appendChild(addSvgElementFromJson(child));
-	});
+	if(data.children) {
+		data.children.forEach(function(child) {
+			shape.appendChild(addSvgElementFromJson(child));
+		});
+	}
 
 	return shape;
 };

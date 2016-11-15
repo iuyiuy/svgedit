@@ -2038,8 +2038,12 @@ TODOS
 						.each(function() {
 							// Get this buttons options
 							var i;
-							for(var j in btn_opts)
-								if(btn_opts[j].sel == '#'+this.getAttribute('id')) i = j;
+							for(var j in btn_opts) {
+								if(btn_opts[j].sel == '#'+this.getAttribute('id')) {
+									i = j;
+									break;
+								}
+							}
 							var opts = btn_opts[i];
 
 							// Remember the function that goes with this ID

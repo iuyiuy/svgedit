@@ -566,6 +566,8 @@ TODOS
 							s.src = curConfig.extPath + extname;
 							document.querySelector('head').appendChild(s);
 						}
+					}).fail(function(jqxhr, settings, exception){
+						console.log(exception);
 					});
 				});
 

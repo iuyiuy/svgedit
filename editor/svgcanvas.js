@@ -4472,6 +4472,8 @@ this.setSvgString = function(xmlString) {
 	try {
 		// convert string into XML document
 		var newDoc = svgedit.utilities.text2xml(xmlString);
+		if(newDoc.firstChild.namespaceURI != 'http://www.w3.org/2000/svg')
+			return false;
 
 		this.prepareSvg(newDoc);
 

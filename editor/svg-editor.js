@@ -1196,6 +1196,7 @@ TODOS
 				curhref = curhref.indexOf('data:') === 0 ? '' : curhref;
 				$.prompt(uiStrings.notification.enterNewImgURL, curhref, function(url) {
 					if (url) {setImageURL(url);}
+					else svgCanvas.deleteSelectedElements();
 				});
 			}
 

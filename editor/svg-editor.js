@@ -4832,9 +4832,6 @@ TODOS
 							}
 							break;
 					}
-					if (svgCanvas.clipBoard.length) {
-						canv_menu.enableContextMenuItems('#paste,#paste_in_place');
-					}
 				}
 			);
 
@@ -4878,6 +4875,15 @@ TODOS
 
 			$('#cmenu_canvas li').disableContextMenu();
 			canv_menu.enableContextMenuItems('#delete,#cut,#copy');
+
+			canv_menu[(localStorage.getItem('svgedit_clipboard') ? 'en' : 'dis') + 'ableContextMenuItems']
+				('#paste,#paste_in_place');
+			window.addEventListener('storage', function(e) {
+				if(e.key != 'svgedit_clipboard') return;
+
+				canv_menu[(localStorage.getItem('svgedit_clipboard') ? 'en' : 'dis') + 'ableContextMenuItems']
+					('#paste,#paste_in_place');
+			});
 
 			window.addEventListener('beforeunload', function(e) {
 				// Suppress warning if page is empty

@@ -3874,7 +3874,7 @@ this.svgToString = function(elem, indent) {
 				var el = this;
 				// for some elements have no attribute
 				var uri = this.namespaceURI;
-				if(uri && !nsuris[uri] && nsMap[uri] && nsMap[uri] !== 'xmlns' && nsMap[uri] !== 'xml' ) {
+				if (uri && !nsuris[uri] && nsMap[uri] && nsMap[uri] !== 'xmlns' && nsMap[uri] !== 'xml' ) {
 					nsuris[uri] = true;
 					out.push(' xmlns:' + nsMap[uri] + '="' + uri +'"');
 				}
@@ -4659,7 +4659,7 @@ this.setSvgString = function(xmlString, preventUndo) {
 		svgedit.path.clearData();
 		svgroot.appendChild(selectorManager.selectorParentGroup);
 		
-		if(!preventUndo) addCommandToHistory(batchCmd);
+		if (!preventUndo) addCommandToHistory(batchCmd);
 		call('changed', [svgcontent]);
 	} catch(e) {
 		console.log(e);

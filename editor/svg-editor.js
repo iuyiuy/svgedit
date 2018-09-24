@@ -3054,6 +3054,8 @@ TODOS
 					svgCanvas.changeSelectedAttribute(attr, val);
 				}
 				this.blur();
+
+				elementChanged(window, [selectedElement]);
 			});
 
 			// Prevent selection of elements when shift-clicking

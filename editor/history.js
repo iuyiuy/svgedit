@@ -524,6 +524,9 @@ svgedit.history.UndoManager.prototype.undo = function() {
 	if (this.undoStackPointer > 0) {
 		var cmd = this.undoStack[--this.undoStackPointer];
 		cmd.unapply(this.handler_);
+
+		svgCanvas.selectOnly(cmd.elements());
+		svgCanvas.call('changed', cmd.elements());
 	}
 };
 

@@ -818,6 +818,18 @@ svgedit.recalculate.recalculateDimensions = function(selected) {
     selected.removeAttribute('transform');
   }
 
+  // Detect if there are any changes, since a change event could have been
+  // triggered without any changes being made - this way we avoid adding empty
+  // entries in the undo buffer
+  var changed = false;
+  for(var attrName in initial) {
+    if(initial[attrName] !== selected.getAttribute(attrName)) {
+      changed = true;
+      break;
+    }
+  }
+  if(!changed) return null;
+
   batchCmd.addSubCommand(new svgedit.history.ChangeElementCommand(selected, initial));
 
   return batchCmd;

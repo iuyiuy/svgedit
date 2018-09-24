@@ -6937,6 +6937,7 @@ this.moveSelectedElements = function(dx, dy, undoable) {
 //			for (var j in selectedBBoxes[i]) b[j] = selectedBBoxes[i][j];
 //			selectedBBoxes[i] = b;
 			
+			startTransform = selected.getAttribute('transform');
 			var xform = svgroot.createSVGTransform();
 			var tlist = svgedit.transformlist.getTransformList(selected);
 			

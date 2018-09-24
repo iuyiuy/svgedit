@@ -1776,6 +1776,8 @@ TODOS
 				} else {
 					$('#selLayerNames').attr('disabled', 'disabled');
 				}
+
+				svgCanvas.runExtensions('updateContextPanel', {});
 			};
 
 			var updateWireFrame = function() {
